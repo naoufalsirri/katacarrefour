@@ -3,8 +3,13 @@ package com.carrefour.kata.service;
 import com.carrefour.kata.dto.OrderRequestDto;
 import com.carrefour.kata.dto.PaymentOptionDto;
 import com.carrefour.kata.dto.PaymentScheduleDto;
+import com.carrefour.kata.mapper.PaymentMapper;
+import com.carrefour.kata.repository.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,11 +19,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PaymentServiceImplTest {
 
-    private PaymentServiceImpl paymentService;
+
+    @Mock
+    private PaymentRepository paymentRepository;
+
+    @Mock
+    private PaymentMapper paymentMapper;
+
+    @InjectMocks
+    private PaymentServiceImpl paymentService;  // Injecte automatiquement les mocks dans le service
 
     @BeforeEach
     void setUp() {
-        paymentService = new PaymentServiceImpl();
+        // Initialisation des mocks
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

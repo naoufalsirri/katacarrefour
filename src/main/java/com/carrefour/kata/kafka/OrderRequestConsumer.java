@@ -3,7 +3,11 @@ package com.carrefour.kata.kafka;
 
 import com.carrefour.kata.dto.OrderRequestDto;
 import com.carrefour.kata.dto.PaymentScheduleDto;
+import com.carrefour.kata.mapper.PaymentMapper;
+import com.carrefour.kata.model.PaymentEntity;
+import com.carrefour.kata.repository.PaymentRepository;
 import com.carrefour.kata.service.PaymentService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -19,7 +23,6 @@ public class OrderRequestConsumer {
 
     @KafkaListener(topics = "order-requests", groupId = "payment-group")
     public void consume(OrderRequestDto order) {
-    //    log.info("Received order: {}", order);
         if (paymentService.isEligible(order.getAmount())) {
             List<PaymentScheduleDto> schedule = paymentService.generateSchedule(order);
             log.info("Generated schedule: {}", schedule);

@@ -1,6 +1,7 @@
 package com.carrefour.kata.controller;
 
 import com.carrefour.kata.dto.OrderRequestDto;
+import com.carrefour.kata.dto.PaymentOptionDto;
 import com.carrefour.kata.dto.PaymentScheduleDto;
 import com.carrefour.kata.exception.NotEligibleForInstallmentsException;
 import com.carrefour.kata.kafka.OrderRequestProducer;
@@ -39,6 +40,7 @@ public class PaymentControllerTest {
 
         OrderRequestDto request = new OrderRequestDto();
         request.setAmount(BigDecimal.valueOf(100));
+        request.setPaymentOption(PaymentOptionDto.BANK_TRANSFER);
 
         PaymentScheduleDto scheduleDto = new PaymentScheduleDto();
         List<PaymentScheduleDto> expectedSchedule = Collections.singletonList(scheduleDto);
@@ -61,6 +63,7 @@ public class PaymentControllerTest {
 
         OrderRequestDto request = new OrderRequestDto();
         request.setAmount(BigDecimal.valueOf(50));
+        request.setPaymentOption(PaymentOptionDto.BANK_TRANSFER);
 
         when(paymentService.isEligible(request.getAmount())).thenReturn(false);
 
@@ -79,7 +82,10 @@ public class PaymentControllerTest {
     void sendOrderToKafka_Success() {
 
         OrderRequestDto request = new OrderRequestDto();
-        request.setAmount(BigDecimal.valueOf(100));
+        request.setAmount(BigDecimal.valueOf(150));
+        request.setPaymentOption(PaymentOptionDto.BANK_TRANSFER);
+
+        when(paymentService.isEligible(request.getAmount())).thenReturn(true);
 
         doNothing().when(orderRequestProducer).sendOrder(request);
 

@@ -3,6 +3,10 @@ package com.carrefour.kata.service;
 import com.carrefour.kata.dto.OrderRequestDto;
 import com.carrefour.kata.dto.PaymentOptionDto;
 import com.carrefour.kata.dto.PaymentScheduleDto;
+import com.carrefour.kata.mapper.PaymentMapper;
+import com.carrefour.kata.model.PaymentEntity;
+import com.carrefour.kata.repository.PaymentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -12,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
+    private final PaymentRepository paymentRepository;
+    private final PaymentMapper paymentMapper;
+
     private static final BigDecimal THRESHOLD = new BigDecimal("100");
 
     @Override
@@ -54,6 +62,10 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setAmount(installment);
             schedule.add(payment);
         }
+
+        PaymentEntity payment = paymentMapper.toEntity(request);
+
+        paymentRepository.save(payment);
 
         return schedule;
     }

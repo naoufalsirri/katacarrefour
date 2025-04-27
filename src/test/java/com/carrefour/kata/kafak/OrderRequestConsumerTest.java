@@ -2,6 +2,7 @@ package com.carrefour.kata.kafak;
 
 
 import com.carrefour.kata.dto.OrderRequestDto;
+import com.carrefour.kata.dto.PaymentOptionDto;
 import com.carrefour.kata.dto.PaymentScheduleDto;
 import com.carrefour.kata.kafka.OrderRequestConsumer;
 import com.carrefour.kata.service.PaymentService;
@@ -31,6 +32,7 @@ class OrderRequestConsumerTest {
         MockitoAnnotations.openMocks(this);
         orderRequestDto = new OrderRequestDto();
         orderRequestDto.setAmount(BigDecimal.valueOf(100));
+        orderRequestDto.setPaymentOption(PaymentOptionDto.THREE_INSTALLMENTS);
     }
 
     @Test

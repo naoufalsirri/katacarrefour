@@ -69,3 +69,15 @@ The /scheduleasync endpoint decouples order processing by pushing the order into
 Local-Only Kafka Setup:
 Docker provides a lightweight, ephemeral Kafka broker for local tests. No manual Kafka installation needed.
 
+Test H2 Database:
+To test the persistence in an H2 in-memory database and verify the data in the browser.
+Once the application is running, you can access the following endpoint to see the data stored in the H2 database:
+http://localhost:8080/h2-console/
+
+Driver Class: org.h2.Driver
+JDBC URL: jdbc:h2:mem:testdb
+User Name: sa
+Password:
+
+you can execute the request to verify data: SELECT * FROM PAYMENTS;
+
